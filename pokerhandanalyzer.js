@@ -73,22 +73,21 @@ function checkForPairings(cards){
 		cardGroup[card.face] = cardGroup[card.face] || [];
 		cardGroup[card.face].push(card);
 	});
+	
 	var keys = Object.keys(cardGroup);
 	var result;
 	if(keys.length === 4){
-		keys.some(function(cardFace) {			
-			if(cardGroup[cardFace].length === 2){
-				result = 'Pair of ' + faceNames[cardFace] + 's';
-				return true;
-			}
-		});
-	} else if(keys.length === 3){
-		keys.some(function(cardFace) {			
-			if(cardGroup[cardFace].length === 3){
-				result = 'Three ' + faceNames[cardFace] + 's';
-				return true;
-			}
-		});
+		var pair = cardGroup[keys[0]].length === 2 ? cardGroup[keys[0]] : 
+			cardGroup[keys[1]].length === 2 ? cardGroup[keys[1]] : 
+			cardGroup[keys[2]].length === 2 ? cardGroup[keys[2]] : cardGroup[keys[3]];
+			
+		result = 'Pair of ' + faceNames[pair[0].face] + 's';
+	} else if(keys.length === 3){		
+		var trips = cardGroup[keys[0]].length === 3 ? cardGroup[keys[0]] : 
+			cardGroup[keys[1]].length === 3 ? cardGroup[keys[1]] : cardGroup[keys[2]]
+			
+		result = 'Three ' + faceNames[trips[0].face] + 's';
+
 	} else if(keys.length === 2){
 		var fours = cardGroup[keys[0]].length === 4 ? cardGroup[keys[0]] : cardGroup[keys[1]].length === 4 ? cardGroup[keys[1]] : null;
 		
